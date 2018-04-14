@@ -12,7 +12,8 @@ cc.Class({
 		},
 
 		_puzzle: null,
-		_lastSelected: null
+		_lastSelected: null,
+		_highlightCellIndexes: []
 	},
 
 	onLoad () {
@@ -40,9 +41,8 @@ cc.Class({
 	},
 
 	_onCellSelected (event) {
-		if (this._lastSelected) {
-			let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
-		}
+		this._unhighlightCells();
+		this._highlightCells();
 		this._lastSelected = event.detail;
 	},
 
@@ -53,5 +53,45 @@ cc.Class({
 
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
 		cell.labelNum.string = event.detail.number;
+	}
+
+	_unhighlightCells () {
+		if(!this._lastSelected) {
+			return;
+		}
+
+		this._highlightCellIndexes.forEach(([boxIndex, cellIndex]) => {
+			let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
+			// TODO unhighlight
+		});
+
+		this._highlightCellIndexes = [];
+	}
+
+	_highlightCells () {
+		if (!this._lastSelected) {
+			return;
+		}
+
+		let {rowIndex, colIndex} = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		for (let i = 0; i < 9; i++) {
+			// highlight row
+			let {boxIndex, cellIndex} = Utils.box.convertToBoxIndex(rowIndex, i);
+			let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
+			// TODO highlight
+			this._highlightCellIndexes.push([boxIndex, cellIndex]);
+
+			// highlight col
+			{boxIndex, cellIndex} = Utils.box.convertToBoxIndex(i, colIndex);
+			cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
+			// TODO highlight
+			this._highlightCellIndexes.push([boxIndex, cellIndex]);
+
+			// highlight box
+			cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(i);
+			// TODO highlight
+			this._highlightCellIndexes.push([this._lastSelected.boxIndex, i]);
+
+		}
 	}
 });
