@@ -1,5 +1,5 @@
-import {Generator} from './Generator';
-import {Utils} from './Utils';
+import { Generator } from './Generator';
+import { Utils } from './Utils';
 
 const DIFFICULTY = {
 	"easy": 62,
@@ -15,8 +15,8 @@ class Sudoku {
 		this.matrix = new Generator().generate();
 	}
 
-	make(level='easy') {
-		let keepCellIndexes = Utils.matrix.shuffle(Array.from({length: 81}, (value, index) => index)).slice(0, DIFFICULTY[level]);
+	make(level = 'easy') {
+		let keepCellIndexes = Utils.matrix.shuffle(Array.from({ length: 81 }, (value, index) => index)).slice(0, DIFFICULTY[level]);
 		this.puzzleMatrix = this.matrix.map((row, rowIndex) => {
 			return row.map((cell, colIndex) => {
 				let index = rowIndex * 9 + colIndex;
@@ -28,4 +28,4 @@ class Sudoku {
 
 }
 
-export {Sudoku};
+export { Sudoku };

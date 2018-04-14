@@ -1,4 +1,4 @@
-import {Cell} from './Cell';
+import { Cell } from './Cell';
 
 const Box = cc.Class({
 	extends: cc.Component,
@@ -10,13 +10,13 @@ const Box = cc.Class({
 		},
 	},
 
-	onLoad () {},
+	onLoad() { },
 
-	start () {},
+	start() { },
 
 	getCell(cellIndex) {
 		return this.cells[cellIndex].getComponent(Cell);
 	}
 });
 
-export {Box};
+export { Box };

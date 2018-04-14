@@ -16,7 +16,7 @@ const Cell = cc.Class({
 		_cellIndex: null,
 	},
 
-	onLoad () {
+	onLoad() {
 		for (let labelMark of this.labelMarks) {
 			labelMark.node.active = false;
 		}
@@ -25,22 +25,22 @@ const Cell = cc.Class({
 		clickEventHandler.target = this.node;
 		clickEventHandler.component = "Cell";
 		clickEventHandler.handler = "onClickCell";
-		clickEventHandler.customEventData = {boxIndex: this._boxIndex, cellIndex: this._cellIndex};
+		clickEventHandler.customEventData = { boxIndex: this._boxIndex, cellIndex: this._cellIndex };
 
 		let button = this.node.getComponent(cc.Button);
 		button.clickEvents.push(clickEventHandler);
 	},
 
-	start () {},
+	start() { },
 
-	onClickCell (event, customEventData) {
+	onClickCell(event, customEventData) {
 		globalEvent.emit('CELL_SELECTED', customEventData);
 	},
 
-	setIndex (boxIndex, cellIndex) {
+	setIndex(boxIndex, cellIndex) {
 		this._boxIndex = boxIndex;
 		this._cellIndex = cellIndex;
 	}
 });
 
-export {Cell};
+export { Cell };

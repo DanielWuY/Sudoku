@@ -1,8 +1,9 @@
 cc.Class({
 	extends: cc.Component,
 
-	onLoad () {
+	onLoad() {
 		window.globalEvent = new cc.EventTarget();
 	},
 
 });
+ß

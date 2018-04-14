@@ -8,7 +8,7 @@ cc.Class({
 		}
 	},
 
-	onLoad () {
+	onLoad() {
 		let clickEventHandler = new cc.Component.EventHandler();
 		clickEventHandler.target = this.node;
 		clickEventHandler.component = "Number";
@@ -21,7 +21,7 @@ cc.Class({
 		button.clickEvents.push(clickEventHandler);
 	},
 
-	start () {},
+	start() { },
 
 	onClickNumber(event, customEventData) {
 		globalEvent.emit('NUMBER_CLICKED', customEventData);
