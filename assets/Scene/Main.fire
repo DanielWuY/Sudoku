@@ -452,12 +452,12 @@
       "__id__": 9
     },
     "_id": "98nU+rnRVHiJY70FnkMD6R",
-    "_opacity": 255,
+    "_opacity": 221,
     "_color": {
       "__type__": "cc.Color",
-      "r": 17,
-      "g": 17,
-      "b": 17,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1337,7 +1337,7 @@
       "__id__": 6
     },
     "_enabled": true,
-    "transition": 1,
+    "transition": 0,
     "pressedColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -90609,7 +90609,7 @@
         "__id__": 2883
       }
     ],
-    "_puzzle": null,
+    "_sudoku": null,
     "_lastSelected": null,
     "_highlightCellIndexes": []
   },

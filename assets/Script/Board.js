@@ -11,14 +11,15 @@ cc.Class({
 			default: []
 		},
 
-		_puzzle: null,
+		_sudoku: null,
 		_lastSelected: null,
 		_highlightCellIndexes: []
 	},
 
 	onLoad() {
-		this._puzzle = new Sudoku().make('hard');
-		this._puzzle.forEach((rowValue, rowIndex) => {
+		this._sudoku = new Sudoku();
+		this._sudoku.make('easy');
+		this._sudoku.puzzleMatrix.forEach((rowValue, rowIndex) => {
 			rowValue.forEach((cellValue, colIndex) => {
 				let { boxIndex, cellIndex } = Utils.box.convertToBoxIndex(rowIndex, colIndex);
 				let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
@@ -53,6 +54,17 @@ cc.Class({
 
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
 		cell.labelNum.string = event.detail.number;
+
+		let {rowIndex, colIndex} = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(event.detail.number);
+
+		let {correct, finish} = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex, parseInt(event.detail.number))
+
+		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
+		
+		if (finish) {
+			cc.director.loadScene("Result");
+		}
 	},
 
 	_unhighlightCells() {

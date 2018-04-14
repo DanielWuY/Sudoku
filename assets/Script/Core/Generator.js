@@ -7,7 +7,7 @@ class Generator {
 		}
 
 		return this.matrix;
-	}ß
+	}
 
 	internalGenerate() {
 		this.matrix = Utils.matrix.make();
