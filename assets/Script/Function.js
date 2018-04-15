@@ -10,6 +10,6 @@ cc.Class({
     },
 
     onClickErase(event, customEventData) {
-
+        globalEvent.emit('ERASE');
     }
 });

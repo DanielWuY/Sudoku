@@ -36,6 +36,7 @@ cc.Class({
 		globalEvent.on('CELL_SELECTED', this._onCellSelected, this);
 		globalEvent.on('NUMBER_CLICKED', this._onNumberClicked, this);
 		globalEvent.on('UNDO', this._onUndo, this);
+		globalEvent.on('ERASE', this._onErase, this);
 	},
 
 	start() { },
@@ -44,6 +45,7 @@ cc.Class({
 		globalEvent.off('CELL_SELECTED', this._onCellSelected, this);
 		globalEvent.off('NUMBER_CLICKED', this._onNumberClicked, this);
 		globalEvent.off('UNDO', this._onUndo, this);
+		globalEvent.off('ERASE', this._onErase, this);
 	},
 
 	_onCellSelected(event) {
@@ -84,6 +86,19 @@ cc.Class({
 		cell.labelNum.string = oldValue || '';
 		let { correct, finish } = this._sudoku.check(boxIndex, cellIndex);
 		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
+	},
+
+	_onErase() {
+		if (!this._lastSelected) {
+			return;
+		}
+
+		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
+		cell.labelNum.string = '';
+
+		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		this._steps.push([this._lastSelected, this._sudoku.puzzleMatrix[rowIndex][colIndex]]);
+		this._sudoku.puzzleMatrix[rowIndex][colIndex] = 0;
 	},
 
 	_unhighlightCells() {
