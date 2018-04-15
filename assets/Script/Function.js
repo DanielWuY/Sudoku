@@ -11,5 +11,17 @@ cc.Class({
 
     onClickErase(event, customEventData) {
         globalEvent.emit('ERASE');
+    },
+
+    onClickNew() {
+        globalEvent.emit('NEW');
+    },
+
+    onClickCancel() {
+        globalEvent.emit('CANCEL');
+    },
+
+    onClickNewGameByDiff(event, customEventData) {
+        globalEvent.emit('NEW_GAME_DIFF', customEventData);
     }
 });

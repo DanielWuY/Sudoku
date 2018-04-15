@@ -18,8 +18,28 @@ cc.Class({
 	},
 
 	onLoad() {
+		this._initBoard();
+
+		globalEvent.on('CELL_SELECTED', this._onCellSelected, this);
+		globalEvent.on('NUMBER_CLICKED', this._onNumberClicked, this);
+		globalEvent.on('UNDO', this._onUndo, this);
+		globalEvent.on('ERASE', this._onErase, this);
+		globalEvent.on('NEW_GAME_DIFF', this._onNewGameByDiff, this);
+	},
+
+	start() { },
+
+	onDestroy() {
+		globalEvent.off('CELL_SELECTED', this._onCellSelected, this);
+		globalEvent.off('NUMBER_CLICKED', this._onNumberClicked, this);
+		globalEvent.off('UNDO', this._onUndo, this);
+		globalEvent.off('ERASE', this._onErase, this);
+		globalEvent.off('NEW_GAME_DIFF', this._onNewGameByDiff, this);
+	},
+
+	_initBoard(diff = 'easy') {
 		this._sudoku = new Sudoku();
-		this._sudoku.make('easy');
+		this._sudoku.make(diff);
 		this._sudoku.puzzleMatrix.forEach((rowValue, rowIndex) => {
 			rowValue.forEach((cellValue, colIndex) => {
 				let { boxIndex, cellIndex } = Utils.box.convertToBoxIndex(rowIndex, colIndex);
@@ -32,20 +52,9 @@ cc.Class({
 		});
 
 		this._steps = [];
-
-		globalEvent.on('CELL_SELECTED', this._onCellSelected, this);
-		globalEvent.on('NUMBER_CLICKED', this._onNumberClicked, this);
-		globalEvent.on('UNDO', this._onUndo, this);
-		globalEvent.on('ERASE', this._onErase, this);
-	},
-
-	start() { },
-
-	onDestroy() {
-		globalEvent.off('CELL_SELECTED', this._onCellSelected, this);
-		globalEvent.off('NUMBER_CLICKED', this._onNumberClicked, this);
-		globalEvent.off('UNDO', this._onUndo, this);
-		globalEvent.off('ERASE', this._onErase, this);
+		this._unhighlightCells();
+		this._lastSelected = null;
+		this._highlightCellIndexes = [];
 	},
 
 	_onCellSelected(event) {
@@ -101,6 +110,10 @@ cc.Class({
 		this._sudoku.puzzleMatrix[rowIndex][colIndex] = 0;
 	},
 
+	_onNewGameByDiff(event) {
+		this._initBoard(event.detail);
+	},
+
 	_unhighlightCells() {
 		if (!this._lastSelected) {
 			return;
@@ -125,21 +138,21 @@ cc.Class({
 			// highlight row
 			({ boxIndex, cellIndex } = Utils.box.convertToBoxIndex(rowIndex, i));
 			let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
-			cell.node.color = new cc.Color(160, 160, 160);
+			cell.node.color = new cc.Color(192, 192, 192);
 			this._highlightCellIndexes.push([boxIndex, cellIndex]);
 
 			// highlight col
 			({ boxIndex, cellIndex } = Utils.box.convertToBoxIndex(i, colIndex));
 			cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
-			cell.node.color = new cc.Color(160, 160, 160);
+			cell.node.color = new cc.Color(192, 192, 192);
 			this._highlightCellIndexes.push([boxIndex, cellIndex]);
 
 			// highlight box
 			cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(i);
-			cell.node.color = new cc.Color(160, 160, 160);
+			cell.node.color = new cc.Color(192, 192, 192);
 			this._highlightCellIndexes.push([this._lastSelected.boxIndex, i]);
 		}
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
-		cell.node.color = new cc.Color(128, 128, 128);
+		cell.node.color = new cc.Color(160, 160, 160);
 	}
 });
