@@ -33,18 +33,11 @@ class Sudoku {
 			return { correct, finish: false };
 		}
 
-		let finish = true;
-		for (let i = 0; i < 9; i++) {
-			for (let j = 0; j < 9; j++) {
-				if (this.matrix[i][j] !== this.puzzleMatrix[i][j]) {
-					finish = false;
-					break;
-				}
-			}
-			if (!finish) {
-				break;
-			}
-		}
+		let finish = this.puzzleMatrix.every((rowValue, rowIndex) => {
+			return rowValue.every((cellValue, colIndex) => {
+				return cellValue === this.matrix[rowIndex][colIndex];
+			})
+		});
 
 		return { correct, finish };
 	}

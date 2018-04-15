@@ -96091,7 +96091,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 102,
+      "width": 107,
       "height": 40
     },
     "_rotationX": 0,
@@ -96129,7 +96129,7 @@
     "_N$string": "Win!!!",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "Consolas",
     "_N$overflow": 0
   },
   {
