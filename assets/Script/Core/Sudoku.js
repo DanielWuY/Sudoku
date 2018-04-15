@@ -26,9 +26,9 @@ class Sudoku {
 		return this.puzzleMatrix;
 	}
 
-	check(boxIndex, cellIndex, num) {
+	check(boxIndex, cellIndex) {
 		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(boxIndex, cellIndex);
-		let correct = this.matrix[rowIndex][colIndex] === num;
+		let correct = this.matrix[rowIndex][colIndex] === this.puzzleMatrix[rowIndex][colIndex];
 		if (!correct) {
 			return { correct, finish: false };
 		}

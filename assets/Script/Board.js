@@ -13,7 +13,8 @@ cc.Class({
 
 		_sudoku: null,
 		_lastSelected: null,
-		_highlightCellIndexes: []
+		_highlightCellIndexes: [],
+		_steps: []
 	},
 
 	onLoad() {
@@ -30,8 +31,11 @@ cc.Class({
 			})
 		});
 
+		this._steps = [];
+
 		globalEvent.on('CELL_SELECTED', this._onCellSelected, this);
 		globalEvent.on('NUMBER_CLICKED', this._onNumberClicked, this);
+		globalEvent.on('UNDO', this._onUndo, this);
 	},
 
 	start() { },
@@ -39,6 +43,7 @@ cc.Class({
 	onDestroy() {
 		globalEvent.off('CELL_SELECTED', this._onCellSelected, this);
 		globalEvent.off('NUMBER_CLICKED', this._onNumberClicked, this);
+		globalEvent.off('UNDO', this._onUndo, this);
 	},
 
 	_onCellSelected(event) {
@@ -56,15 +61,29 @@ cc.Class({
 		cell.labelNum.string = event.detail.number;
 
 		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		this._steps.push([this._lastSelected, this._sudoku.puzzleMatrix[rowIndex][colIndex]]);
 		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(event.detail.number);
 
-		let { correct, finish } = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex, parseInt(event.detail.number))
-
+		let { correct, finish } = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
 		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
 
 		if (finish) {
 			cc.director.loadScene("Result");
 		}
+	},
+
+	_onUndo() {
+		if (this._steps.length == 0) {
+			return;
+		}
+		let [{ boxIndex, cellIndex }, oldValue] = this._steps.pop();
+		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(boxIndex, cellIndex);
+		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(oldValue);
+
+		let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
+		cell.labelNum.string = oldValue || '';
+		let { correct, finish } = this._sudoku.check(boxIndex, cellIndex);
+		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
 	},
 
 	_unhighlightCells() {

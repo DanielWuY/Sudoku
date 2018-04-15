@@ -63,7 +63,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 2971
+        "__id__": 2973
       }
     ],
     "_prefab": null,
@@ -125,13 +125,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 2968
-      },
-      {
-        "__id__": 2969
-      },
-      {
         "__id__": 2970
+      },
+      {
+        "__id__": 2971
+      },
+      {
+        "__id__": 2972
       }
     ],
     "_prefab": null,
@@ -90614,7 +90614,8 @@
     ],
     "_sudoku": null,
     "_lastSelected": null,
-    "_highlightCellIndexes": []
+    "_highlightCellIndexes": [],
+    "_steps": []
   },
   {
     "__type__": "cc.Node",
@@ -92818,23 +92819,23 @@
         "__id__": 2946
       },
       {
-        "__id__": 2951
+        "__id__": 2953
       },
       {
-        "__id__": 2956
+        "__id__": 2958
       },
       {
-        "__id__": 2961
+        "__id__": 2963
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2966
+        "__id__": 2968
       },
       {
-        "__id__": 2967
+        "__id__": 2969
       }
     ],
     "_prefab": null,
@@ -92894,6 +92895,9 @@
       },
       {
         "__id__": 2950
+      },
+      {
+        "__id__": 2952
       }
     ],
     "_prefab": null,
@@ -93058,7 +93062,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 2951
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": true,
     "_N$normalColor": {
@@ -93098,6 +93106,24 @@
     }
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2946
+    },
+    "component": "Function",
+    "handler": "onClickUndo",
+    "customEventData": ""
+  },
+  {
+    "__type__": "ccaefPWRvZKirLj1rcqf9N+",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2946
+    },
+    "_enabled": true
+  },
+  {
     "__type__": "cc.Node",
     "_name": "ButtonErase",
     "_objFlags": 0,
@@ -93106,17 +93132,17 @@
     },
     "_children": [
       {
-        "__id__": 2952
+        "__id__": 2954
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2954
+        "__id__": 2956
       },
       {
-        "__id__": 2955
+        "__id__": 2957
       }
     ],
     "_prefab": null,
@@ -93161,14 +93187,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2951
+      "__id__": 2953
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2953
+        "__id__": 2955
       }
     ],
     "_prefab": null,
@@ -93213,7 +93239,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2952
+      "__id__": 2954
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -93235,7 +93261,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2951
+      "__id__": 2953
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -93261,7 +93287,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2951
+      "__id__": 2953
     },
     "_enabled": true,
     "transition": 0,
@@ -93317,7 +93343,7 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 2951
+      "__id__": 2953
     }
   },
   {
@@ -93329,17 +93355,17 @@
     },
     "_children": [
       {
-        "__id__": 2957
+        "__id__": 2959
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2959
+        "__id__": 2961
       },
       {
-        "__id__": 2960
+        "__id__": 2962
       }
     ],
     "_prefab": null,
@@ -93384,14 +93410,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2956
+      "__id__": 2958
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2958
+        "__id__": 2960
       }
     ],
     "_prefab": null,
@@ -93436,7 +93462,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2957
+      "__id__": 2959
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -93458,7 +93484,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2956
+      "__id__": 2958
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -93484,7 +93510,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2956
+      "__id__": 2958
     },
     "_enabled": true,
     "transition": 0,
@@ -93540,7 +93566,7 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 2956
+      "__id__": 2958
     }
   },
   {
@@ -93552,17 +93578,17 @@
     },
     "_children": [
       {
-        "__id__": 2962
+        "__id__": 2964
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2964
+        "__id__": 2966
       },
       {
-        "__id__": 2965
+        "__id__": 2967
       }
     ],
     "_prefab": null,
@@ -93607,14 +93633,14 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2961
+      "__id__": 2963
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 2963
+        "__id__": 2965
       }
     ],
     "_prefab": null,
@@ -93659,7 +93685,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2962
+      "__id__": 2964
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -93681,7 +93707,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2961
+      "__id__": 2963
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -93707,7 +93733,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2961
+      "__id__": 2963
     },
     "_enabled": true,
     "transition": 0,
@@ -93763,7 +93789,7 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 2961
+      "__id__": 2963
     }
   },
   {
