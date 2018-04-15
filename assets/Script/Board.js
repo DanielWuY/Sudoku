@@ -79,7 +79,7 @@ cc.Class({
 		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
 
 		if (finish) {
-			cc.director.loadScene("Result");
+			globalEvent.emit('GAME_FINISH');
 		}
 	},
 

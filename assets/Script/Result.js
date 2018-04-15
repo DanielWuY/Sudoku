@@ -1,21 +1,27 @@
 cc.Class({
 	extends: cc.Component,
 
-	properties: {
-		btnRestart: {
-			type: cc.Button,
-			default: null
-		}
-	},
+	properties: {},
 
 	onLoad() {
-		this.btnRestart.node.on('click', this._onClickRestart, this);
+		this.node.active = false;
+
+		globalEvent.on('NEW', this._onNewGame, this);
+		globalEvent.on('GAME_FINISH', this._onGameFinish, this);
+	},
+
+	onDestroy() {
+		globalEvent.off('NEW', this._onNewGame, this);
+		globalEvent.off('GAME_FINISH', this._onGameFinish, this);
 	},
 
 	start() { },
 
-	_onClickRestart(event) {
-		console.log('restart');
-		cc.director.loadScene('Main');
+	_onNewGame() {
+		this.node.active = false;
+	},
+
+	_onGameFinish() {
+		this.node.active = true;
 	}
 });
