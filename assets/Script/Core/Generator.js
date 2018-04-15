@@ -1,18 +1,22 @@
 import { Utils } from './Utils';
 
 class Generator {
+	constructor(){
+		this._retry_time = 0;
+	}
 	generate() {
 		while (!this.internalGenerate()) {
-			console.log('retry generate');
+			this._retry_time += 1;
 		}
-
+		console.log(`retry generate ${this._retry_time} times`);
+		this._retry_time = 0;
 		return this.matrix;
 	}
 
 	internalGenerate() {
 		this.matrix = Utils.matrix.make();
-		this.orders = Array.from({ length: 9 }).map(() => Array.from({ length: 9 }, (value, index) => index)).map(row => Utils.matrix.shuffle(row));
-		return Array.from({ length: 9 }).every((value, index) => this.fillNumber(index + 1));
+		this.orders = Utils.matrix.make().map(row => row.map((value, index) => index)).map(row => Utils.matrix.shuffle(row))
+		return Utils.matrix.makeRow().every((value, index) => this.fillNumber(index + 1));
 	}
 
 	fillNumber(num) {

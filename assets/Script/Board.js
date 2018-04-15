@@ -55,13 +55,13 @@ cc.Class({
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
 		cell.labelNum.string = event.detail.number;
 
-		let {rowIndex, colIndex} = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
 		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(event.detail.number);
 
-		let {correct, finish} = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex, parseInt(event.detail.number))
+		let { correct, finish } = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex, parseInt(event.detail.number))
 
 		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
-		
+
 		if (finish) {
 			cc.director.loadScene("Result");
 		}
@@ -91,20 +91,21 @@ cc.Class({
 			// highlight row
 			({ boxIndex, cellIndex } = Utils.box.convertToBoxIndex(rowIndex, i));
 			let cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
-			cell.node.color = new cc.Color(128, 128, 128);
+			cell.node.color = new cc.Color(160, 160, 160);
 			this._highlightCellIndexes.push([boxIndex, cellIndex]);
 
 			// highlight col
 			({ boxIndex, cellIndex } = Utils.box.convertToBoxIndex(i, colIndex));
 			cell = this.boxes[boxIndex].getComponent(Box).getCell(cellIndex);
-			cell.node.color = new cc.Color(128, 128, 128);
+			cell.node.color = new cc.Color(160, 160, 160);
 			this._highlightCellIndexes.push([boxIndex, cellIndex]);
 
 			// highlight box
 			cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(i);
-			cell.node.color = new cc.Color(128, 128, 128);
+			cell.node.color = new cc.Color(160, 160, 160);
 			this._highlightCellIndexes.push([this._lastSelected.boxIndex, i]);
-
 		}
+		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
+		cell.node.color = new cc.Color(128, 128, 128);
 	}
 });
