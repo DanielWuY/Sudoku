@@ -55,6 +55,7 @@ cc.Class({
 		this._unhighlightCells();
 		this._lastSelected = null;
 		this._highlightCellIndexes = [];
+		globalEvent.emit('GAME_START');
 	},
 
 	_onCellSelected(event) {
