@@ -17,6 +17,10 @@ cc.Class({
         globalEvent.emit('MARK');
     },
 
+    onClickHint() {
+        globalEvent.emit('HINT');
+    },
+
     onClickNew() {
         globalEvent.emit('NEW');
     },

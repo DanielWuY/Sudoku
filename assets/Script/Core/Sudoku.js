@@ -10,6 +10,15 @@ const DIFFICULTY = {
 	"inhuman": 17,
 };
 
+const HINT_NUM = {
+	"easy": 1,
+	"medium": 1,
+	"hard": 2,
+	"very-hard": 2,
+	"insane": 3,
+	"inhuman": 3,
+};
+
 class Sudoku {
 	constructor() {
 		this.matrix = new Generator().generate();
@@ -23,6 +32,7 @@ class Sudoku {
 				return keepCellIndexes.indexOf(index) !== -1 ? cell : 0;
 			})
 		})
+		this.hintNum = HINT_NUM[level];
 		return this.puzzleMatrix;
 	}
 

@@ -22,6 +22,10 @@ cc.Class({
 			type: cc.Sprite,
 			default: null
 		},
+		labelHint: {
+			type: cc.Label,
+			default: null
+		},
 
 		_sudoku: null,
 		_lastSelected: null,
@@ -38,6 +42,7 @@ cc.Class({
 		globalEvent.on('UNDO', this._onUndo, this);
 		globalEvent.on('ERASE', this._onErase, this);
 		globalEvent.on('MARK', this._onGameMark, this);
+		globalEvent.on('HINT', this._onHint, this);
 		globalEvent.on('NEW_GAME_DIFF', this._onNewGameByDiff, this);
 		globalEvent.on('GAME_PAUSE', this._onGamePause, this);
 		globalEvent.on('GAME_RESUME', this._onGameResume, this);
@@ -51,6 +56,7 @@ cc.Class({
 		globalEvent.off('UNDO', this._onUndo, this);
 		globalEvent.off('ERASE', this._onErase, this);
 		globalEvent.off('MARK', this._onGameMark, this);
+		globalEvent.off('HINT', this._onHint, this);
 		globalEvent.off('NEW_GAME_DIFF', this._onNewGameByDiff, this);
 		globalEvent.off('GAME_PAUSE', this._onGamePause, this);
 		globalEvent.off('GAME_RESUME', this._onGameResume, this);
@@ -75,7 +81,9 @@ cc.Class({
 		this._lastSelected = null;
 		this._highlightCellIndexes = [];
 		this._isMarked = false;
+		this._setImageMark();
 		this.panelResume.node.active = false;
+		this.labelHint.string = this._sudoku.hintNum;
 		globalEvent.emit('GAME_START');
 	},
 
@@ -226,5 +234,21 @@ cc.Class({
 		} else {
 			this.imageMark.spriteFrame = new cc.SpriteFrame(cc.url.raw('resources/Off.png'));
 		}
+	},
+
+	_onHint() {
+		if (this._sudoku.hintNum == 0) {
+			return;
+		}
+
+		if (!this._lastSelected) {
+			return;
+		}
+
+		this._sudoku.hintNum -= 1;
+		this.labelHint.string = this._sudoku.hintNum;
+
+		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		this._fillNumber(this._sudoku.matrix[rowIndex][colIndex]);
 	}
 });
