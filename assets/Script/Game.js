@@ -6,32 +6,46 @@ cc.Class({
 			type: cc.Label,
 			default: null
 		},
-		_startTime:  0
+		_usedTime: 0,
+		_isPaused: false
 	},
 
 	onLoad() {
 		window.globalEvent = new cc.EventTarget();
 		globalEvent.on('GAME_START', this._onGameStart, this);
+		globalEvent.on('GAME_PAUSE', this._onGamePause, this);
+		globalEvent.on('GAME_RESUME', this._onGameResume, this);
 	},
 
-	update () {
+	update(dt) {
+		if (this._isPaused) {
+			return;
+		}
+
+		this._usedTime += dt;
 		this.usedTime.string = this._formatTimeString();
 	},
 
-	onDestroy () {
+	onDestroy() {
 		globalEvent.off('GAME_START', this._onGameStart, this);
+		globalEvent.off('GAME_PAUSE', this._onGamePause, this);
+		globalEvent.off('GAME_RESUME', this._onGameResume, this);
 	},
 
 	_onGameStart() {
-		this._startTime = Date.now();
+		this._usedTime = 0;
+	},
+
+	_onGamePause() {
+		this._isPaused = true;
+	},
+
+	_onGameResume() {
+		this._isPaused = false;
 	},
 
 	_formatTimeString() {
-		if (this._startTime === 0) {
-			return '00:00:00';
-		}
-
-		let seconds = Math.ceil((Date.now() - this._startTime) / 1000);
+		let seconds = Math.ceil(this._usedTime);
 		let hours = Math.floor(seconds / 3600);
 		seconds %= 3600;
 		let minutes = Math.floor(seconds / 60);

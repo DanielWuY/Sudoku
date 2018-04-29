@@ -23,5 +23,13 @@ cc.Class({
 
     onClickNewGameByDiff(event, customEventData) {
         globalEvent.emit('NEW_GAME_DIFF', customEventData);
+    },
+
+    onClickPause() {
+        globalEvent.emit('GAME_PAUSE');
+    },
+
+    onClickResume() {
+        globalEvent.emit('GAME_RESUME');
     }
 });

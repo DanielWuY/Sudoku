@@ -10,6 +10,14 @@ cc.Class({
 			type: [Box],
 			default: []
 		},
+		panelResume: {
+			type: cc.Layout,
+			default: null
+		},
+		btnResume: {
+			type: cc.Button,
+			default: null
+		},
 
 		_sudoku: null,
 		_lastSelected: null,
@@ -25,6 +33,8 @@ cc.Class({
 		globalEvent.on('UNDO', this._onUndo, this);
 		globalEvent.on('ERASE', this._onErase, this);
 		globalEvent.on('NEW_GAME_DIFF', this._onNewGameByDiff, this);
+		globalEvent.on('GAME_PAUSE', this._onGamePause, this);
+		globalEvent.on('GAME_RESUME', this._onGameResume, this);
 	},
 
 	start() { },
@@ -35,6 +45,8 @@ cc.Class({
 		globalEvent.off('UNDO', this._onUndo, this);
 		globalEvent.off('ERASE', this._onErase, this);
 		globalEvent.off('NEW_GAME_DIFF', this._onNewGameByDiff, this);
+		globalEvent.off('GAME_PAUSE', this._onGamePause, this);
+		globalEvent.off('GAME_RESUME', this._onGameResume, this);
 	},
 
 	_initBoard(diff = 'easy') {
@@ -55,6 +67,7 @@ cc.Class({
 		this._unhighlightCells();
 		this._lastSelected = null;
 		this._highlightCellIndexes = [];
+		this.panelResume.node.active = false;
 		globalEvent.emit('GAME_START');
 	},
 
@@ -155,5 +168,13 @@ cc.Class({
 		}
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
 		cell.node.color = new cc.Color(160, 160, 160);
+	},
+
+	_onGamePause() {
+		this.panelResume.node.active = true;
+	},
+
+	_onGameResume() {
+		this.panelResume.node.active = false;
 	}
 });
