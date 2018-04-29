@@ -13,13 +13,11 @@ const Cell = cc.Class({
 		},
 
 		_boxIndex: null,
-		_cellIndex: null,
+		_cellIndex: null
 	},
 
 	onLoad() {
-		for (let labelMark of this.labelMarks) {
-			labelMark.node.active = false;
-		}
+		this.clearMarks();
 
 		let clickEventHandler = new cc.Component.EventHandler();
 		clickEventHandler.target = this.node;
@@ -40,6 +38,12 @@ const Cell = cc.Class({
 	setIndex(boxIndex, cellIndex) {
 		this._boxIndex = boxIndex;
 		this._cellIndex = cellIndex;
+	},
+
+	clearMarks() {
+		for (let labelMark of this.labelMarks) {
+			labelMark.node.active = false;
+		}
 	}
 });
 

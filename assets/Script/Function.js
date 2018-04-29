@@ -13,6 +13,10 @@ cc.Class({
         globalEvent.emit('ERASE');
     },
 
+    onClickMark() {
+        globalEvent.emit('MARK');
+    },
+
     onClickNew() {
         globalEvent.emit('NEW');
     },

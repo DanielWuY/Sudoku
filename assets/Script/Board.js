@@ -18,11 +18,16 @@ cc.Class({
 			type: cc.Button,
 			default: null
 		},
+		imageMark: {
+			type: cc.Sprite,
+			default: null
+		},
 
 		_sudoku: null,
 		_lastSelected: null,
 		_highlightCellIndexes: [],
-		_steps: []
+		_steps: [],
+		_isMarked: false
 	},
 
 	onLoad() {
@@ -32,6 +37,7 @@ cc.Class({
 		globalEvent.on('NUMBER_CLICKED', this._onNumberClicked, this);
 		globalEvent.on('UNDO', this._onUndo, this);
 		globalEvent.on('ERASE', this._onErase, this);
+		globalEvent.on('MARK', this._onGameMark, this);
 		globalEvent.on('NEW_GAME_DIFF', this._onNewGameByDiff, this);
 		globalEvent.on('GAME_PAUSE', this._onGamePause, this);
 		globalEvent.on('GAME_RESUME', this._onGameResume, this);
@@ -44,6 +50,7 @@ cc.Class({
 		globalEvent.off('NUMBER_CLICKED', this._onNumberClicked, this);
 		globalEvent.off('UNDO', this._onUndo, this);
 		globalEvent.off('ERASE', this._onErase, this);
+		globalEvent.off('MARK', this._onGameMark, this);
 		globalEvent.off('NEW_GAME_DIFF', this._onNewGameByDiff, this);
 		globalEvent.off('GAME_PAUSE', this._onGamePause, this);
 		globalEvent.off('GAME_RESUME', this._onGameResume, this);
@@ -67,6 +74,7 @@ cc.Class({
 		this._unhighlightCells();
 		this._lastSelected = null;
 		this._highlightCellIndexes = [];
+		this._isMarked = false;
 		this.panelResume.node.active = false;
 		globalEvent.emit('GAME_START');
 	},
@@ -77,17 +85,14 @@ cc.Class({
 		this._highlightCells();
 	},
 
-	_onNumberClicked(event) {
-		if (!this._lastSelected) {
-			return;
-		}
-
+	_fillNumber(number) {
 		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
-		cell.labelNum.string = event.detail.number;
+		cell.clearMarks();
+		cell.labelNum.string = number;
 
 		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
 		this._steps.push([this._lastSelected, this._sudoku.puzzleMatrix[rowIndex][colIndex]]);
-		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(event.detail.number);
+		this._sudoku.puzzleMatrix[rowIndex][colIndex] = number;
 
 		let { correct, finish } = this._sudoku.check(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
 		cell.labelNum.node.color = correct ? new cc.Color(3, 80, 165) : new cc.Color(241, 26, 26);
@@ -97,10 +102,38 @@ cc.Class({
 		}
 	},
 
+	_fillMark(number) {
+		let cell = this.boxes[this._lastSelected.boxIndex].getComponent(Box).getCell(this._lastSelected.cellIndex);
+		cell.labelNum.string = '';
+		cell.labelMarks[number - 1].node.active = !cell.labelMarks[number - 1].node.active;
+
+		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(this._lastSelected.boxIndex, this._lastSelected.cellIndex);
+		this._sudoku.puzzleMatrix[rowIndex][colIndex] = 0;
+	},
+
+	_onNumberClicked(event) {
+		if (!this._lastSelected) {
+			return;
+		}
+
+		let number = parseInt(event.detail.number);
+
+		if (this._isMarked) {
+			this._fillMark(number);
+		} else {
+			this._fillNumber(number);
+		}
+	},
+
 	_onUndo() {
+		if (this._isMarked) {
+			return;
+		}
+
 		if (this._steps.length == 0) {
 			return;
 		}
+
 		let [{ boxIndex, cellIndex }, oldValue] = this._steps.pop();
 		let { rowIndex, colIndex } = Utils.box.convertFromBoxIndex(boxIndex, cellIndex);
 		this._sudoku.puzzleMatrix[rowIndex][colIndex] = parseInt(oldValue);
@@ -112,6 +145,10 @@ cc.Class({
 	},
 
 	_onErase() {
+		if (this._isMarked) {
+			return;
+		}
+
 		if (!this._lastSelected) {
 			return;
 		}
@@ -176,5 +213,18 @@ cc.Class({
 
 	_onGameResume() {
 		this.panelResume.node.active = false;
+	},
+
+	_onGameMark() {
+		this._isMarked = !this._isMarked;
+		this._setImageMark();
+	},
+
+	_setImageMark() {
+		if (this._isMarked) {
+			this.imageMark.spriteFrame = new cc.SpriteFrame(cc.url.raw('resources/On.png'));
+		} else {
+			this.imageMark.spriteFrame = new cc.SpriteFrame(cc.url.raw('resources/Off.png'));
+		}
 	}
 });
